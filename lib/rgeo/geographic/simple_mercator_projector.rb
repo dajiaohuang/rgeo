@@ -32,9 +32,13 @@ module RGeo
         when Feature::Point
           rpd_ = ImplHelper::Math::RADIANS_PER_DEGREE
           radius = EQUATORIAL_RADIUS
+          extra = []
+          extra << geometry.z if geometry.is_3d?
+          extra << geometry.m if geometry.measured?
           @projection_factory.point(
             geometry.x * rpd_ * radius,
-            Math.log(Math.tan(Math::PI / 4.0 + geometry.y * rpd_ / 2.0)) * radius
+            Math.log(Math.tan(Math::PI / 4.0 + geometry.y * rpd_ / 2.0)) * radius,
+            *extra
           )
         when Feature::Line
           @projection_factory.line(project(geometry.start_point), project(geometry.end_point))
@@ -61,9 +65,13 @@ module RGeo
         when Feature::Point
           dpr = ImplHelper::Math::DEGREES_PER_RADIAN
           radius = EQUATORIAL_RADIUS
+          extra = []
+          extra << geometry.z if geometry.is_3d?
+          extra << geometry.m if geometry.measured?
           @geography_factory.point(
             geometry.x / radius * dpr,
-            (2.0 * Math.atan(Math.exp(geometry.y / radius)) - Math::PI / 2.0) * dpr
+            (2.0 * Math.atan(Math.exp(geometry.y / radius)) - Math::PI / 2.0) * dpr,
+            *extra
           )
         when Feature::Line
           @geography_factory.line(unproject(geometry.start_point), unproject(geometry.end_point))
