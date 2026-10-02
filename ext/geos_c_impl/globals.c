@@ -7,6 +7,7 @@
 #include <ruby.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "errors.h"
 #include "globals.h"
@@ -69,17 +70,19 @@ NORETURN(static void error_handler(const char* fmt, ...))
   vsnprintf(geos_full_error, sizeof geos_full_error, fmt, args2);
   va_end(args2);
 
-  // NOTE: strtok is destructive, geos_full_error is not to be used afterwards.
-  char* geos_error = strtok(geos_full_error, ":");
-  char* geos_message = strtok(NULL, ":");
-  while (isspace(*geos_message))
-    geos_message++;
+  char* geos_error = geos_full_error;
+  char* geos_message = strchr(geos_full_error, ':');
+  if (geos_message) {
+    *geos_message++ = '\0';
+    while (isspace((unsigned char)*geos_message))
+      geos_message++;
+  }
 
-  if (streq(geos_error, "UnsupportedOperationException")) {
+  if (geos_message && streq(geos_error, "UnsupportedOperationException")) {
     rb_raise(rb_eRGeoUnsupportedOperation, "%s", geos_message);
-  } else if (streq(geos_error, "IllegalArgumentException")) {
+  } else if (geos_message && streq(geos_error, "IllegalArgumentException")) {
     rb_raise(rb_eRGeoInvalidGeometry, "%s", geos_message);
-  } else if (streq(geos_error, "ParseException")) {
+  } else if (geos_message && streq(geos_error, "ParseException")) {
     rb_raise(rb_eRGeoParseError, "%s", geos_message);
   } else if (geos_message) {
     rb_raise(rb_eGeosError, "%s: %s", geos_error, geos_message);
