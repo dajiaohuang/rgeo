@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include "coordinates.h"
+#include "errors.h"
 #include "factory.h"
 #include "geometry.h"
 #include "globals.h"
@@ -569,6 +570,10 @@ cmethod_create_line(VALUE module, VALUE factory, VALUE start, VALUE end)
   end_geom = rgeo_convert_to_geos_geometry(factory, end, point_type, &state);
   if (state) {
     rb_jump_tag(state);
+  }
+
+  if (GEOSisEmpty(start_geom) != 0 || GEOSisEmpty(end_geom) != 0) {
+    rb_raise(rb_eRGeoInvalidGeometry, "Line endpoints cannot be empty.");
   }
 
   coord_seq = GEOSCoordSeq_create(2, 3);
