@@ -111,7 +111,7 @@ module RGeo
         hash.each do |_hval, data_|
           array << data_[0] if data_[1].odd?
         end
-        factory.multipoint([array])
+        factory.multipoint(array)
       end
 
       def coordinates
