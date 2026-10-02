@@ -617,6 +617,7 @@ module RGeo
           @inverse_flattening = inverse_flattening.to_f
           @ivf_definitive = ivf_definitive ? true : false
           @linear_unit = linear_unit
+          @axisunit = linear_unit
         end
 
         # Gets the equatorial radius. The returned length is expressed in
