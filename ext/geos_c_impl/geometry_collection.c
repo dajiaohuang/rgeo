@@ -426,7 +426,7 @@ method_multi_line_string_is_closed(VALUE self)
       for (i = 0; i < len; ++i) {
         geom = GEOSGetGeometryN(self_geom, i);
         if (geom) {
-          result = rgeo_is_geos_line_string_closed(self_geom);
+          result = rgeo_is_geos_line_string_closed(geom);
           if (result != Qtrue) {
             break;
           }
