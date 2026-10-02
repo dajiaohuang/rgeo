@@ -67,6 +67,8 @@ module RGeo
       end
 
       def buffer(distance)
+        return factory.polygon(factory.linear_ring([])) if distance <= 0
+
         radius = distance / SphericalMath::RADIUS
         radius = 1.5 if radius > 1.5
         cos = Math.cos(radius)
