@@ -914,7 +914,8 @@ rgeo_convert_to_detached_geos_geometry(VALUE obj,
   }
   prep = object_data->prep;
   if (prep && prep != (GEOSPreparedGeometry*)1 &&
-      prep != (GEOSPreparedGeometry*)2) {
+      prep != (GEOSPreparedGeometry*)2 &&
+      prep != (GEOSPreparedGeometry*)3) {
     GEOSPreparedGeom_destroy(prep);
   }
   object_data->geom = NULL;
