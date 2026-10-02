@@ -183,6 +183,9 @@ module RGeo
             raise Error::ParseError, "Unrecognized type: #{type}"
           end
           args.assert_empty
+          if containing_type.nil? && !@cur_token.nil?
+            raise Error::ParseError, "Unexpected trailing token: #{@cur_token.inspect}"
+          end
           obj
         end
 
