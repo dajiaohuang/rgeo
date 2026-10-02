@@ -277,6 +277,7 @@ static VALUE
 method_multi_point_coordinates(VALUE self)
 {
   VALUE result = Qnil;
+  VALUE coordinates;
   RGeo_GeometryData* self_data;
   const GEOSGeometry* self_geom;
   const GEOSCoordSequence* coord_sequence;
@@ -298,9 +299,12 @@ method_multi_point_coordinates(VALUE self)
     for (i = 0; i < count; ++i) {
       point = GEOSGetGeometryN(self_geom, i);
       coord_sequence = GEOSGeom_getCoordSeq(point);
+      coordinates = coord_sequence
+                      ? extract_points_from_coordinate_sequence(
+                          coord_sequence, zCoordinate)
+                      : Qnil;
       rb_ary_push(result,
-                  rb_ary_pop(extract_points_from_coordinate_sequence(
-                    coord_sequence, zCoordinate)));
+                  NIL_P(coordinates) ? Qnil : rb_ary_pop(coordinates));
     }
   }
 
