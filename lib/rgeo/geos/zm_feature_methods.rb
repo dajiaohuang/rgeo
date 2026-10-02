@@ -285,7 +285,7 @@ module RGeo
       end
 
       def point_on_surface
-        @factory.create_feature(ZMPointImpl, @zgeometry.centroid, @mgeometry.centroid)
+        @factory.create_feature(ZMPointImpl, @zgeometry.point_on_surface, @mgeometry.point_on_surface)
       end
 
       def exterior_ring
@@ -364,7 +364,7 @@ module RGeo
       end
 
       def point_on_surface
-        @factory.create_feature(ZMPointImpl, @zgeometry.centroid, @mgeometry.centroid)
+        @factory.create_feature(ZMPointImpl, @zgeometry.point_on_surface, @mgeometry.point_on_surface)
       end
 
       def coordinates
