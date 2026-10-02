@@ -93,14 +93,14 @@ module RGeo
 
         # Create a LocalDatum given a name and a local datum type code.
 
-        def create_local_datum(_name, local_datum_type)
+        def create_local_datum(name, local_datum_type)
           LocalDatum.create(name, local_datum_type)
         end
 
         # Create a PrimeMeridian given a name, an AngularUnit, and a
         # longitude offset.
 
-        def create_prime_meridian(_name, angular_unit, longitude)
+        def create_prime_meridian(name, angular_unit, longitude)
           PrimeMeridian.create(name, angular_unit, longitude)
         end
 
