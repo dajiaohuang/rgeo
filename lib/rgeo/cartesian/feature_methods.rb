@@ -54,6 +54,8 @@ module RGeo
       end
 
       def buffer(distance)
+        return factory.polygon(factory.linear_ring([])) if distance <= 0
+
         point_count = factory.property(:buffer_resolution) * 4
         angle = -::Math::PI * 2.0 / point_count
         points = (0...point_count).map do |i|
